@@ -1,21 +1,21 @@
 #include <UnitTest++/UnitTest++.h>
-#include "/home/sergei/Documents/lb1/131/PerestanCipher.h"
-#include "/home/sergei/Documents/lb1/131/PerestanCipher.cpp"
+#include "/home/Maksim/laba1/12/AlphaCipher.h"
+#include "/home/Maksim/laba1/12/AlphaCipher.cpp"
 
 
 
 using namespace std;
 string wst (int k, wstring s1)
 {
-    PerestanCipher w(k);
-    wstring s=w.CoderPerestanCipher(w, s1);
+    AlphaCipher w(k);
+    wstring s=w.CoderAlphaCipher(w, s1);
     const string s2 (s.begin(), s.end() );
     return s2;
 }
 string wst1 (int k, wstring s1)
 {
-    PerestanCipher w(k);
-    wstring s=w.DecoderPerestanCipher(k, s1);
+    AlphaCipher w(k);
+    wstring s=w.DecoderAlphaCipher(k, s1);
     const string s2 (s.begin(), s.end() );
     return s2;
 }
@@ -23,82 +23,64 @@ SUITE (KeyTest)
 {
     wstring test = L"PROGRAMMIROVANIE";
     int k;
-    TEST (ValidKey) 
-    {
+    TEST (ValidKey) {
         CHECK_EQUAL(wst(k=4,test),"PRIARARNOMOIGMVE");
     }
-    TEST(EmptyKey)
-    {
+    TEST(EmptyKey) {
         CHECK_THROW(wst(k=0,test), cipher_error);
     }
-    TEST(NegativeKey)
-    {
+    TEST(NegativeKey) {
         CHECK_THROW(wst(k=-5,test), cipher_error);
     }
-    TEST(LargeKey)
-    {
+    TEST(LargeKey) {
         CHECK_THROW(wst(k=12,test), cipher_error);
     }
-    TEST(A_characters_in_the_key_instead_of_numbers)
-    {
+    TEST(A_characters_in_the_key_instead_of_numbers) {
         CHECK_THROW(wst(k=12,test), cipher_error);
     }
 }
 SUITE(EncryptTest)
 {
-    TEST(ValidText) 
-    {
+    TEST(ValidText) {
         CHECK_EQUAL(wst(4,L"PROGRAMMIROVANIE"),"PRIARARNOMOIGMVE");
     }
-    TEST(LowText)
-    {
+    TEST(LowText) {
         CHECK_EQUAL(wst(4,L"PRograMmiroVANie"),"PRIARARNOMOIGMVE");
     }
-    TEST(SpaceText)
-    {
+    TEST(SpaceText) {
         CHECK_EQUAL(wst(4,L"PROGRAM MIROVANIE"),"PRIARARNOMOIGMVE");
     }
-    TEST(EmptyText) 
-    {
+    TEST(EmptyText) {
         CHECK_THROW(wst(4,L" "),cipher_error);
     }
-    TEST(ValiDTextWithoutletters) 
-    {
+    TEST(ValiDTextWithoutletters) {
         CHECK_THROW(wst(4,L"!*><?/,.123"),cipher_error);
     }
-    TEST(TextWithNumber)
-    {
+    TEST(TextWithNumber) {
         CHECK_EQUAL(wst(4,L"PRograM123miroVANie"),"PRIARARNOMOIGMVE");
     }
-    TEST(TextWithSpaceAndPunct)
-    {
+    TEST(TextWithSpaceAndPunct) {
         CHECK_EQUAL(wst(6,L"The programmer walks!"),"TGRHRWEAAPMLRMKOES");
     }
 }
 SUITE(DecryptText)
 {
-    TEST(ValidTEXT) 
-    {
+    TEST(ValidTEXT) {
         CHECK_EQUAL(wst1(4,L"PRIARARNOMOIGMVE"),"PROGRAMMIROVANIE");
     }
-    TEST(LowTEXT) 
-    {
+    TEST(LowTEXT) {
         CHECK_EQUAL(wst1(4,L"PriaRARNomoIGMve"),"PROGRAMMIROVANIE");
     }
-    TEST(SpaceTEXT)
-    {
+    TEST(SpaceTEXT) {
         CHECK_EQUAL(wst1(4,L"PRIARARN OMOIGMVE"),"PROGRAMMIROVANIE");
     }
-    TEST(EmptyTEXT) 
-    {
+    TEST(EmptyTEXT) {
         CHECK_THROW(wst1(4,L" "),cipher_error);
     }
-    TEST(TextNumberText) 
-    {
+    TEST(TextNumberText) {
         CHECK_EQUAL(wst1(4,L"PRIARARN123OMOIGMVE"),"PROGRAMMIROVANIE");
     }
-    TEST(TextSymbolText)
-    {
+    TEST(TextSymbolText) {
         CHECK_EQUAL(wst1(4,L"PRIARARN!!!OMOIGMVE"),"PROGRAMMIROVANIE");
     }
 
